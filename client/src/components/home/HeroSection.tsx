@@ -50,6 +50,17 @@ export default function HeroSection() {
               <i className="fas fa-search mr-2"></i>Search
             </Button>
           </div>
+          
+          {/* App Preview Link */}
+          <div className="mt-6">
+            <Button 
+              variant="outline" 
+              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white"
+              onClick={() => setLocation('/app-preview')}
+            >
+              Try Our App Preview with Tinder-Style Swiping
+            </Button>
+          </div>
         </div>
       </div>
     </section>
