@@ -1,14 +1,15 @@
 import { Link, useLocation } from "wouter";
+import { Home, Search, Heart, User, Shuffle } from "lucide-react";
 
 export default function MobileAppBar() {
   const [location] = useLocation();
 
-  const NavItem = ({ href, icon, label }: { href: string; icon: string; label: string }) => {
+  const NavItem = ({ href, label, children }: { href: string; label: string; children: React.ReactNode }) => {
     const isActive = location === href;
     return (
       <Link href={href}>
         <a className={`flex flex-col items-center p-2 ${isActive ? 'text-primary' : 'text-gray-500'}`}>
-          <i className={`${icon} text-xl`}></i>
+          {children}
           <span className="text-xs mt-1">{label}</span>
         </a>
       </Link>
@@ -16,12 +17,23 @@ export default function MobileAppBar() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-2 md:hidden z-40">
+    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-800 p-2 md:hidden z-40">
       <div className="flex justify-around">
-        <NavItem href="/" icon="fas fa-home" label="Home" />
-        <NavItem href="/search" icon="fas fa-search" label="Search" />
-        <NavItem href="/saved" icon="fas fa-heart" label="Saved" />
-        <NavItem href="/profile" icon="fas fa-user" label="Profile" />
+        <NavItem href="/" label="Home">
+          <Home size={20} />
+        </NavItem>
+        <NavItem href="/search" label="Search">
+          <Search size={20} />
+        </NavItem>
+        <NavItem href="/swipe" label="Swipe">
+          <Shuffle size={20} />
+        </NavItem>
+        <NavItem href="/saved" label="Saved">
+          <Heart size={20} />
+        </NavItem>
+        <NavItem href="/profile" label="Profile">
+          <User size={20} />
+        </NavItem>
       </div>
     </div>
   );

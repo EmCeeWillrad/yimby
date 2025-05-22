@@ -10,6 +10,8 @@ import MobileAppBar from "@/components/layout/MobileAppBar";
 import Home from "@/pages/Home";
 import PropertyDetails from "@/pages/PropertyDetails";
 import PropertySearch from "@/pages/PropertySearch";
+import PropertySwipe from "@/pages/PropertySwipe";
+import AppPreview from "@/pages/AppPreview";
 import HousingPrograms from "@/pages/HousingPrograms";
 import SavedProperties from "@/pages/SavedProperties";
 
@@ -19,6 +21,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/properties/:id" component={PropertyDetails} />
       <Route path="/search" component={PropertySearch} />
+      <Route path="/swipe" component={PropertySwipe} />
+      <Route path="/app-preview" component={AppPreview} />
       <Route path="/housing-programs" component={HousingPrograms} />
       <Route path="/saved" component={SavedProperties} />
       <Route component={NotFound} />
