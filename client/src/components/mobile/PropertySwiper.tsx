@@ -162,16 +162,16 @@ export default function PropertySwiper() {
           <span className="text-xs text-muted-foreground">{currentIndex + 1} of {properties.length}</span>
         </div>
         
-        {/* Gesture hint overlay - initially visible */}
-        <div className="absolute inset-0 z-20 bg-black/70 flex items-center justify-center pointer-events-none opacity-70">
-          <div className="text-center text-white px-6">
-            <div className="flex items-center justify-center mb-6">
-              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-pulse">
+        {/* Gesture hint overlay - initially visible, but more transparent */}
+        <div className="absolute inset-0 z-20 bg-black/30 flex items-center justify-center pointer-events-none">
+          <div className="text-center text-white px-6 bg-primary/80 rounded-xl py-4 shadow-lg backdrop-blur-md">
+            <div className="flex items-center justify-center mb-4">
+              <svg width="70" height="70" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-pulse">
                 <path d="M28 40H52M52 40L40 28M52 40L40 52" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <p className="text-lg font-semibold mb-2">Find Your Perfect Match</p>
-            <p className="text-sm opacity-80">Swipe to browse available properties</p>
+            <p className="text-xl font-semibold mb-2">Find Your Perfect Match</p>
+            <p className="text-sm">Swipe to browse available properties</p>
           </div>
         </div>
         
