@@ -161,8 +161,8 @@ export default function PropertySwiper() {
           <span className="text-xs text-muted-foreground">{currentIndex + 1} of {properties.length}</span>
         </div>
         
-        {/* Gesture hint overlay - only visible when user hasn't interacted yet */}
-        {!direction && (
+        {/* Gesture hint overlay - only visible initially, removed after first interaction */}
+        {currentIndex === 0 && !direction && !cardRef.current?.style.transform && (
           <div className="absolute inset-0 z-20 pointer-events-none">
             <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 text-center text-white px-6 bg-primary/90 rounded-xl py-4 shadow-lg backdrop-blur-md">
               <div className="flex items-center justify-center mb-4">
