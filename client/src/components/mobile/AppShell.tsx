@@ -32,38 +32,50 @@ export default function AppShell({ children }: AppShellProps) {
   return (
     <div className="max-w-[375px] mx-auto my-8 overflow-hidden">
       <div className="rounded-[40px] overflow-hidden shadow-xl border-8 border-gray-800 h-[700px] bg-gray-800 relative">
-        {/* Phone speaker + camera */}
-        <div className="absolute top-0 left-0 right-0 h-6 bg-gray-800 z-20 flex justify-center items-center">
-          <div className="w-32 h-4 bg-black rounded-b-xl"></div>
+        {/* iPhone notch */}
+        <div className="absolute top-0 left-0 right-0 h-7 bg-black z-20 flex justify-center items-center">
+          <div className="w-40 h-7 bg-black rounded-b-2xl flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-gray-600 absolute left-[42%]"></div>
+            <div className="w-12 h-2 rounded-full bg-gray-800 mx-auto"></div>
+            <div className="w-2 h-2 rounded-full bg-gray-600 absolute right-[42%]"></div>
+          </div>
         </div>
         
         {/* Status bar */}
-        <div className="bg-gray-900 py-2 px-4 text-white flex justify-between items-center z-10">
-          <div className="text-xs">9:41 AM</div>
+        <div className="bg-black py-2 px-6 text-white flex justify-between items-center z-10 pt-8">
+          <div className="text-xs font-medium">9:41</div>
           <div className="flex items-center space-x-1">
-            <Signal size={14} />
-            <Wifi size={14} />
-            <Battery size={14} />
+            <Signal className="w-4 h-4" />
+            <Wifi className="w-4 h-4" />
+            <div className="w-6 h-3 border border-white rounded-sm relative">
+              <div className="absolute top-0 left-0 bottom-0 w-4 bg-white"></div>
+              <div className="absolute -right-1 top-0 bottom-0 w-[1px] bg-white"></div>
+            </div>
           </div>
         </div>
         
         {/* App header */}
-        <div className="bg-primary text-white p-3 flex items-center justify-center">
+        <div className="bg-primary text-white p-3 flex items-center justify-center border-b border-primary-foreground/10">
           <div className="font-bold text-lg">{getPageTitle()}</div>
         </div>
         
         {/* App content - scrollable area */}
-        <div className="bg-gray-100 h-[590px] overflow-y-auto">
+        <div className="bg-gray-100 dark:bg-gray-900 h-[580px] overflow-y-auto">
           {children}
         </div>
         
+        {/* iPhone Home Indicator */}
+        <div className="absolute bottom-1 left-0 right-0 flex justify-center">
+          <div className="w-32 h-1 bg-gray-500 rounded-full"></div>
+        </div>
+        
         {/* App navigation */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 z-10">
-          <NavIcon icon={<HomeIcon />} active={location === '/'} />
-          <NavIcon icon={<SearchIcon />} active={location === '/search'} />
-          <NavIcon icon={<SwipeIcon />} active={location === '/swipe'} />
-          <NavIcon icon={<HeartIcon />} active={location === '/saved'} />
-          <NavIcon icon={<ProfileIcon />} active={location === '/profile'} />
+        <div className="absolute bottom-2 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around pt-2 pb-1 z-10">
+          <NavIcon icon={<HomeIcon />} active={location === '/'} label="Home" />
+          <NavIcon icon={<SearchIcon />} active={location === '/search'} label="Search" />
+          <NavIcon icon={<SwipeIcon />} active={location === '/swipe'} label="Swipe" />
+          <NavIcon icon={<HeartIcon />} active={location === '/saved'} label="Saved" />
+          <NavIcon icon={<ProfileIcon />} active={location === '/profile'} label="Profile" />
         </div>
       </div>
     </div>
@@ -71,10 +83,13 @@ export default function AppShell({ children }: AppShellProps) {
 }
 
 // Navigation icons
-function NavIcon({ icon, active }: { icon: React.ReactNode, active: boolean }) {
+function NavIcon({ icon, active, label }: { icon: React.ReactNode, active: boolean, label: string }) {
   return (
-    <div className={`flex items-center justify-center w-10 h-10 ${active ? 'text-primary' : 'text-gray-400'}`}>
-      {icon}
+    <div className="flex flex-col items-center justify-center">
+      <div className={`flex items-center justify-center w-10 h-10 ${active ? 'text-primary' : 'text-gray-400'}`}>
+        {icon}
+      </div>
+      <span className={`text-xs mt-1 ${active ? 'text-primary' : 'text-gray-400'}`}>{label}</span>
     </div>
   );
 }

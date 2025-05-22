@@ -150,18 +150,34 @@ export default function PropertySwiper() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto py-6 px-4">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Find Your Match</h2>
-      
+    <div className="w-full mx-auto">      
       <div 
-        className="relative h-[500px] w-full"
+        className="relative h-[450px] w-full"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
+        <div className="absolute top-0 right-4 left-4 h-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md z-10 rounded-t-lg shadow-sm flex items-center justify-between px-3">
+          <span className="text-sm font-medium text-primary">Property Match</span>
+          <span className="text-xs text-muted-foreground">{currentIndex + 1} of {properties.length}</span>
+        </div>
+        
+        {/* Gesture hint overlay - initially visible */}
+        <div className="absolute inset-0 z-20 bg-black/70 flex items-center justify-center pointer-events-none opacity-70">
+          <div className="text-center text-white px-6">
+            <div className="flex items-center justify-center mb-6">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-pulse">
+                <path d="M28 40H52M52 40L40 28M52 40L40 52" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <p className="text-lg font-semibold mb-2">Swipe to Find Your Home</p>
+            <p className="text-sm opacity-80">Swipe left to skip, right to save</p>
+          </div>
+        </div>
+        
         <Card 
           ref={cardRef}
-          className={`absolute inset-0 overflow-hidden transition-transform duration-300 ${
+          className={`absolute inset-0 overflow-hidden transition-transform duration-300 shadow-xl rounded-xl ${
             direction === 'left' ? 'border-destructive' : 
             direction === 'right' ? 'border-primary' : ''
           }`}
@@ -170,12 +186,12 @@ export default function PropertySwiper() {
             className="w-full h-64 bg-cover bg-center" 
             style={{ backgroundImage: `url(${currentProperty.imageUrls?.[0] || 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500'})` }}
           >
-            <div className="p-3 flex justify-between">
-              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+            <div className="p-3 flex justify-between pt-12">
+              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
                 {currentProperty.programType}
               </Badge>
               
-              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
                 <Star className="w-4 h-4 mr-1 fill-yellow-400 stroke-yellow-400" />
                 {currentProperty.rating || 4.5}
               </Badge>
@@ -213,25 +229,29 @@ export default function PropertySwiper() {
           </div>
           
           {direction === 'left' && (
-            <div className="absolute top-4 right-4 bg-destructive text-white p-2 rounded-full transform rotate-12">
-              <X className="w-8 h-8" />
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-destructive/20 z-10">
+              <div className="bg-destructive text-white p-4 rounded-full transform rotate-12 scale-150 shadow-lg">
+                <X className="w-10 h-10" />
+              </div>
             </div>
           )}
           
           {direction === 'right' && (
-            <div className="absolute top-4 left-4 bg-primary text-white p-2 rounded-full transform -rotate-12">
-              <Heart className="w-8 h-8" />
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-primary/20 z-10">
+              <div className="bg-primary text-white p-4 rounded-full transform -rotate-12 scale-150 shadow-lg">
+                <Heart className="w-10 h-10" />
+              </div>
             </div>
           )}
         </Card>
       </div>
       
-      <div className="flex justify-center gap-4 mt-6">
+      <div className="flex justify-center gap-4 mt-4 px-4 pb-4">
         <Button 
           onClick={() => handleSwipe('left')} 
           variant="outline" 
           size="icon" 
-          className="h-14 w-14 rounded-full border-destructive text-destructive hover:bg-destructive hover:text-white"
+          className="h-14 w-14 rounded-full border-destructive text-destructive hover:bg-destructive hover:text-white shadow-sm"
         >
           <X className="w-6 h-6" />
         </Button>
@@ -240,7 +260,7 @@ export default function PropertySwiper() {
           onClick={handleDetails} 
           variant="outline" 
           size="icon" 
-          className="h-14 w-14 rounded-full border-secondary text-secondary hover:bg-secondary hover:text-white"
+          className="h-14 w-14 rounded-full border-secondary text-secondary hover:bg-secondary hover:text-white shadow-sm"
         >
           <Info className="w-6 h-6" />
         </Button>
@@ -249,14 +269,10 @@ export default function PropertySwiper() {
           onClick={() => handleSwipe('right')} 
           variant="outline" 
           size="icon" 
-          className="h-14 w-14 rounded-full border-primary text-primary hover:bg-primary hover:text-white"
+          className="h-14 w-14 rounded-full border-primary text-primary hover:bg-primary hover:text-white shadow-sm"
         >
           <Heart className="w-6 h-6" />
         </Button>
-      </div>
-      
-      <div className="mt-4 text-center text-sm text-muted-foreground">
-        <p>Property {currentIndex + 1} of {properties.length}</p>
       </div>
     </div>
   );
