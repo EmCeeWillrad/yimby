@@ -12,9 +12,8 @@ import { Property, mockProperties } from "./mockData";
 const MIN_SWIPE_DISTANCE = 50;
 
 export default function PropertySwiper() {
-  // Use the imported mock data directly to ensure properties appear
-  // Deep clone the properties to avoid reference issues
-  const properties = JSON.parse(JSON.stringify(mockProperties));
+  // Use properties directly from our imported data to ensure they appear
+  const properties = mockProperties;
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
@@ -200,56 +199,46 @@ export default function PropertySwiper() {
         >
           <div 
             className="w-full h-64 bg-cover bg-center" 
-            style={{ backgroundImage: `url(${currentProperty?.imageUrls?.[0] || 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500'})` }}
+            style={{ backgroundImage: `url(${currentProperty.imageUrls[0]})` }}
           >
             <div className="p-3 flex justify-between pt-12">
               <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
-                {currentProperty?.programType || "Affordable Housing"}
+                {currentProperty.programType}
               </Badge>
               
               <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
                 <Star className="w-4 h-4 mr-1 fill-yellow-400 stroke-yellow-400" />
-                {currentProperty?.rating || 4.5}
+                {currentProperty.rating}
               </Badge>
             </div>
           </div>
           
           <div className="p-4">
-            <h3 className="text-xl font-semibold line-clamp-1">{currentProperty?.title || "Modern Affordable Home"}</h3>
+            <h3 className="text-xl font-semibold line-clamp-1">{currentProperty.title}</h3>
             
             <div className="flex items-center text-muted-foreground text-sm mt-1 mb-2">
-              <span>{currentProperty?.city || "Portland"}, {currentProperty?.state || "OR"}</span>
+              <span>{currentProperty.city}, {currentProperty.state}</span>
             </div>
             
             <div className="text-2xl font-bold text-primary mb-2">
-              {formatPrice(currentProperty?.price || 1200)}
+              {formatPrice(currentProperty.price)}
               <span className="text-sm font-normal text-muted-foreground ml-1">/month</span>
             </div>
             
             <div className="flex gap-3 mb-3">
-              <Badge variant="outline">{currentProperty?.bedrooms || 2} bed</Badge>
-              <Badge variant="outline">{currentProperty?.bathrooms || 1} bath</Badge>
-              <Badge variant="outline">{currentProperty?.squareFeet || 850} sq ft</Badge>
+              <Badge variant="outline">{currentProperty.bedrooms} bed</Badge>
+              <Badge variant="outline">{currentProperty.bathrooms} bath</Badge>
+              <Badge variant="outline">{currentProperty.squareFeet} sq ft</Badge>
             </div>
             
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{currentProperty?.description || "Affordable housing unit with great amenities and convenient location. Close to public transportation and shopping."}</p>
+            <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{currentProperty.description}</p>
             
             <div className="flex flex-wrap gap-2 mt-1">
-              {currentProperty?.amenities ? (
-                <>
-                  {currentProperty.amenities.slice(0, 3).map((amenity: string, index: number) => (
-                    <Badge key={index} variant="secondary">{amenity}</Badge>
-                  ))}
-                  {(currentProperty.amenities.length || 0) > 3 && (
-                    <Badge variant="secondary">+{(currentProperty.amenities.length || 0) - 3} more</Badge>
-                  )}
-                </>
-              ) : (
-                <>
-                  <Badge variant="secondary">Parking</Badge>
-                  <Badge variant="secondary">Laundry</Badge>
-                  <Badge variant="secondary">Pet Friendly</Badge>
-                </>
+              {currentProperty.amenities.slice(0, 3).map((amenity: string, index: number) => (
+                <Badge key={index} variant="secondary">{amenity}</Badge>
+              ))}
+              {currentProperty.amenities.length > 3 && (
+                <Badge variant="secondary">+{currentProperty.amenities.length - 3} more</Badge>
               )}
             </div>
           </div>
