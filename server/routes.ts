@@ -317,11 +317,9 @@ async function setupSampleData() {
   ];
 
   // Add sample properties
+  // Always add the properties for testing
   for (const property of properties) {
-    const existingProperties = await storage.getPropertiesWithFilters({});
-    if (existingProperties.length === 0) {
-      await storage.addProperty(property);
-    }
+    await storage.addProperty(property);
   }
 
   // Sample testimonials
