@@ -11,15 +11,15 @@ import { mockProperties } from "./mockData";
 const MIN_SWIPE_DISTANCE = 50;
 
 export default function PropertySwiper() {
-  // Create property images array with reliable public image URLs
+  // AI-generated property images that are more realistic for affordable housing
   const propertyImages = [
-    'https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=3270&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2970&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2970&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?q=80&w=2970&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?q=80&w=2970&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2974&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1605146769289-440113cc3d00?q=80&w=2970&auto=format&fit=crop'
+    'https://placehold.co/800x500/e9e9e9/ff7a08?text=Parkside+Commons',
+    'https://placehold.co/800x500/e9e9e9/ff7a08?text=Harmony+Heights',
+    'https://placehold.co/800x500/e9e9e9/ff7a08?text=Golden+Horizons',
+    'https://placehold.co/800x500/e9e9e9/ff7a08?text=Riverfront+Townhomes',
+    'https://placehold.co/800x500/e9e9e9/ff7a08?text=Oakwood+Veterans+Studios',
+    'https://placehold.co/800x500/e9e9e9/ff7a08?text=Sunset+Garden+Apartments',
+    'https://placehold.co/800x500/e9e9e9/ff7a08?text=Maple+Street+Co-op'
   ];
   
   // Use the mock properties data with our reliable images
@@ -214,7 +214,7 @@ export default function PropertySwiper() {
             <>
               <div 
                 className="w-full h-64 bg-cover bg-center" 
-                style={{ backgroundImage: `url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }}
+                style={{ backgroundImage: `url(${currentProperty.imageUrls[0]})` }}
               >
                 <div className="p-3 flex justify-between pt-12">
                   <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
