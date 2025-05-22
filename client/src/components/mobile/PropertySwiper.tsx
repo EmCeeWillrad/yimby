@@ -235,11 +235,21 @@ export default function PropertySwiper() {
             <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{currentProperty?.description || "Affordable housing unit with great amenities and convenient location. Close to public transportation and shopping."}</p>
             
             <div className="flex flex-wrap gap-2 mt-1">
-              {currentProperty.amenities?.slice(0, 3).map((amenity, index) => (
-                <Badge key={index} variant="secondary">{amenity}</Badge>
-              ))}
-              {(currentProperty.amenities?.length || 0) > 3 && (
-                <Badge variant="secondary">+{(currentProperty.amenities?.length || 0) - 3} more</Badge>
+              {currentProperty?.amenities ? (
+                <>
+                  {currentProperty.amenities.slice(0, 3).map((amenity: string, index: number) => (
+                    <Badge key={index} variant="secondary">{amenity}</Badge>
+                  ))}
+                  {(currentProperty.amenities.length || 0) > 3 && (
+                    <Badge variant="secondary">+{(currentProperty.amenities.length || 0) - 3} more</Badge>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Badge variant="secondary">Parking</Badge>
+                  <Badge variant="secondary">Laundry</Badge>
+                  <Badge variant="secondary">Pet Friendly</Badge>
+                </>
               )}
             </div>
           </div>
