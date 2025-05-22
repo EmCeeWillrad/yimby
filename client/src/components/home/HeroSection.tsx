@@ -55,7 +55,7 @@ export default function HeroSection() {
           <div className="mt-6">
             <Button 
               variant="outline" 
-              className="bg-primary text-white border-primary hover:bg-primary/90 shadow-md"
+              className="bg-primary text-white border-primary hover:bg-primary/90 shadow-md text-lg font-bold py-6 px-8"
               onClick={() => setLocation('/app-preview')}
             >
               Try Our App Preview with Quick Property Matching
