@@ -2,40 +2,40 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Home, X, Heart, Star, DollarSign, Info } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { Home, X, Heart, Star, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import { Property, mockProperties } from "./mockData";
+import { mockProperties } from "./mockData";
 
-// Add touch gesture support
+// Minimum distance required for a swipe to count
 const MIN_SWIPE_DISTANCE = 50;
 
 export default function PropertySwiper() {
-  // Use properties directly from our imported data to ensure they appear
+  // Use mock data directly for testing
   const properties = mockProperties;
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  
   const cardRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef<number | null>(null);
   const { toast } = useToast();
   const [_, setLocation] = useLocation();
 
-  // Ensure we have valid properties
-  useEffect(() => {
-    console.log("Available properties:", properties.length);
-  }, [properties]);
-
-  // Get current property with fallback
-  const currentProperty = properties[currentIndex] || mockProperties[0];
+  const currentProperty = properties[currentIndex];
   const isLastProperty = currentIndex === properties.length - 1;
 
+  useEffect(() => {
+    console.log("Current property:", currentProperty?.title);
+  }, [currentIndex, currentProperty]);
+  
   // Reset state when swipe is finished
   useEffect(() => {
     if (direction) {
       const timer = setTimeout(() => {
         setDirection(null);
+        
         if (direction === 'right') {
           // Save the property in a real implementation
           toast({
@@ -43,6 +43,7 @@ export default function PropertySwiper() {
             description: "Property has been added to your saved list.",
           });
         }
+        
         if (!isLastProperty) {
           setCurrentIndex(prev => prev + 1);
         }
@@ -51,16 +52,10 @@ export default function PropertySwiper() {
       return () => clearTimeout(timer);
     }
   }, [direction, isLastProperty, toast]);
-  
-  // For demonstration, ensure properties always display
-  useEffect(() => {
-    if (!properties || properties.length === 0) {
-      console.error("No properties available to display");
-    }
-  }, [properties]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     startXRef.current = e.touches[0].clientX;
+    setHasInteracted(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -110,6 +105,7 @@ export default function PropertySwiper() {
 
   const handleSwipe = (dir: 'left' | 'right') => {
     setDirection(dir);
+    setHasInteracted(true);
     if (cardRef.current) {
       if (dir === 'left') {
         cardRef.current.style.transform = `translateX(-150%) rotate(-30deg)`;
@@ -125,6 +121,14 @@ export default function PropertySwiper() {
     }
   };
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(price);
+  };
+  
   if (!properties.length) {
     return (
       <div className="w-full h-[calc(100vh-200px)] flex justify-center items-center">
@@ -139,7 +143,7 @@ export default function PropertySwiper() {
     );
   }
 
-  if (!currentProperty) {
+  if (isLastProperty && direction) {
     return (
       <div className="w-full h-[calc(100vh-200px)] flex justify-center items-center">
         <div className="text-center">
@@ -148,19 +152,14 @@ export default function PropertySwiper() {
           <p className="text-sm text-muted-foreground mb-4">
             Check back soon for new listings
           </p>
-          <Button onClick={() => setCurrentIndex(0)}>Start Over</Button>
+          <Button onClick={() => {
+            setCurrentIndex(0);
+            setDirection(null);
+          }}>Start Over</Button>
         </div>
       </div>
     );
   }
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0
-    }).format(price);
-  };
 
   return (
     <div className="w-full mx-auto">      
@@ -175,8 +174,8 @@ export default function PropertySwiper() {
           <span className="text-xs text-muted-foreground">{currentIndex + 1} of {properties.length}</span>
         </div>
         
-        {/* Gesture hint overlay - only visible initially, removed after first interaction */}
-        {currentIndex === 0 && !direction && !cardRef.current?.style.transform && (
+        {/* Gesture hint overlay - only visible initially */}
+        {currentIndex === 0 && !hasInteracted && (
           <div className="absolute inset-0 z-20 pointer-events-none">
             <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 text-center text-white px-6 bg-primary/90 rounded-xl py-4 shadow-lg backdrop-blur-md">
               <div className="flex items-center justify-center mb-4">
@@ -197,51 +196,55 @@ export default function PropertySwiper() {
             direction === 'right' ? 'border-primary' : ''
           }`}
         >
-          <div 
-            className="w-full h-64 bg-cover bg-center" 
-            style={{ backgroundImage: `url(${currentProperty.imageUrls[0]})` }}
-          >
-            <div className="p-3 flex justify-between pt-12">
-              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
-                {currentProperty.programType}
-              </Badge>
+          {currentProperty && (
+            <>
+              <div 
+                className="w-full h-64 bg-cover bg-center" 
+                style={{ backgroundImage: `url(${currentProperty.imageUrls[0]})` }}
+              >
+                <div className="p-3 flex justify-between pt-12">
+                  <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
+                    {currentProperty.programType}
+                  </Badge>
+                  
+                  <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
+                    <Star className="w-4 h-4 mr-1 fill-yellow-400 stroke-yellow-400" />
+                    {currentProperty.rating}
+                  </Badge>
+                </div>
+              </div>
               
-              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
-                <Star className="w-4 h-4 mr-1 fill-yellow-400 stroke-yellow-400" />
-                {currentProperty.rating}
-              </Badge>
-            </div>
-          </div>
-          
-          <div className="p-4">
-            <h3 className="text-xl font-semibold line-clamp-1">{currentProperty.title}</h3>
-            
-            <div className="flex items-center text-muted-foreground text-sm mt-1 mb-2">
-              <span>{currentProperty.city}, {currentProperty.state}</span>
-            </div>
-            
-            <div className="text-2xl font-bold text-primary mb-2">
-              {formatPrice(currentProperty.price)}
-              <span className="text-sm font-normal text-muted-foreground ml-1">/month</span>
-            </div>
-            
-            <div className="flex gap-3 mb-3">
-              <Badge variant="outline">{currentProperty.bedrooms} bed</Badge>
-              <Badge variant="outline">{currentProperty.bathrooms} bath</Badge>
-              <Badge variant="outline">{currentProperty.squareFeet} sq ft</Badge>
-            </div>
-            
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{currentProperty.description}</p>
-            
-            <div className="flex flex-wrap gap-2 mt-1">
-              {currentProperty.amenities.slice(0, 3).map((amenity: string, index: number) => (
-                <Badge key={index} variant="secondary">{amenity}</Badge>
-              ))}
-              {currentProperty.amenities.length > 3 && (
-                <Badge variant="secondary">+{currentProperty.amenities.length - 3} more</Badge>
-              )}
-            </div>
-          </div>
+              <div className="p-4">
+                <h3 className="text-xl font-semibold line-clamp-1">{currentProperty.title}</h3>
+                
+                <div className="flex items-center text-muted-foreground text-sm mt-1 mb-2">
+                  <span>{currentProperty.city}, {currentProperty.state}</span>
+                </div>
+                
+                <div className="text-2xl font-bold text-primary mb-2">
+                  {formatPrice(currentProperty.price)}
+                  <span className="text-sm font-normal text-muted-foreground ml-1">/month</span>
+                </div>
+                
+                <div className="flex gap-3 mb-3">
+                  <Badge variant="outline">{currentProperty.bedrooms} bed</Badge>
+                  <Badge variant="outline">{currentProperty.bathrooms} bath</Badge>
+                  <Badge variant="outline">{currentProperty.squareFeet} sq ft</Badge>
+                </div>
+                
+                <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{currentProperty.description}</p>
+                
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {currentProperty.amenities.slice(0, 3).map((amenity: string, index: number) => (
+                    <Badge key={index} variant="secondary">{amenity}</Badge>
+                  ))}
+                  {currentProperty.amenities.length > 3 && (
+                    <Badge variant="secondary">+{currentProperty.amenities.length - 3} more</Badge>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
           
           {direction === 'left' && (
             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-destructive/20 z-10">
