@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { Property } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,14 +6,14 @@ import { Home, X, Heart, Star, DollarSign, Info } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
+import { Property, mockProperties } from "./mockData";
 
 // Add touch gesture support
 const MIN_SWIPE_DISTANCE = 50;
 
 export default function PropertySwiper() {
-  const { data: properties = [] } = useQuery<Property[]>({
-    queryKey: ['/api/properties'],
-  });
+  // Use mock data directly to ensure properties appear in the app preview
+  const properties = mockProperties;
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
@@ -162,18 +161,20 @@ export default function PropertySwiper() {
           <span className="text-xs text-muted-foreground">{currentIndex + 1} of {properties.length}</span>
         </div>
         
-        {/* Gesture hint overlay - initially visible, but more transparent */}
-        <div className="absolute inset-0 z-20 bg-black/30 flex items-center justify-center pointer-events-none">
-          <div className="text-center text-white px-6 bg-primary/80 rounded-xl py-4 shadow-lg backdrop-blur-md">
-            <div className="flex items-center justify-center mb-4">
-              <svg width="70" height="70" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-pulse">
-                <path d="M28 40H52M52 40L40 28M52 40L40 52" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+        {/* Gesture hint overlay - only visible when user hasn't interacted yet */}
+        {!direction && (
+          <div className="absolute inset-0 z-20 pointer-events-none">
+            <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 text-center text-white px-6 bg-primary/90 rounded-xl py-4 shadow-lg backdrop-blur-md">
+              <div className="flex items-center justify-center mb-4">
+                <svg width="70" height="70" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-pulse">
+                  <path d="M28 40H52M52 40L40 28M52 40L40 52" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <p className="text-xl font-semibold mb-2">Find Your Perfect Match</p>
+              <p className="text-sm">Swipe to browse available properties</p>
             </div>
-            <p className="text-xl font-semibold mb-2">Find Your Perfect Match</p>
-            <p className="text-sm">Swipe to browse available properties</p>
           </div>
-        </div>
+        )}
         
         <Card 
           ref={cardRef}
