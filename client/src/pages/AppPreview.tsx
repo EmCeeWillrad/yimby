@@ -17,7 +17,7 @@ export default function AppPreview() {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-4">AffordableHomes Mobile App</h1>
             <p className="text-lg mb-6 max-w-2xl mx-auto text-muted-foreground">
-              Experience our Tinder-like property swiping feature in the mobile app interface.
+              Experience our intuitive property matching feature in the mobile app interface.
             </p>
             <div className="flex justify-center gap-4 mb-8">
               <Link href="/">
@@ -44,8 +44,8 @@ export default function AppPreview() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-medium">Swipe to Discover</h3>
-                    <p className="text-muted-foreground">Quickly browse properties with our intuitive swipe interface. Swipe right to save, left to skip.</p>
+                    <h3 className="font-medium">Match with Properties</h3>
+                    <p className="text-muted-foreground">Quickly browse properties with our intuitive gesture interface. Swipe right to save, left to skip.</p>
                   </div>
                 </div>
                 

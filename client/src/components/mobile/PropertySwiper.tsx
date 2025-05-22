@@ -170,8 +170,8 @@ export default function PropertySwiper() {
                 <path d="M28 40H52M52 40L40 28M52 40L40 52" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <p className="text-lg font-semibold mb-2">Swipe to Find Your Home</p>
-            <p className="text-sm opacity-80">Swipe left to skip, right to save</p>
+            <p className="text-lg font-semibold mb-2">Find Your Perfect Match</p>
+            <p className="text-sm opacity-80">Swipe to browse available properties</p>
           </div>
         </div>
         

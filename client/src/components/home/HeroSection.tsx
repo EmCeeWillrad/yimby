@@ -58,7 +58,7 @@ export default function HeroSection() {
               className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white"
               onClick={() => setLocation('/app-preview')}
             >
-              Try Our App Preview with Tinder-Style Swiping
+              Try Our App Preview with Quick Property Matching
             </Button>
           </div>
         </div>
