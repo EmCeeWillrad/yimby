@@ -43,7 +43,7 @@ export const mockProperties: Property[] = [
     isAccessible: false,
     amenities: ["Playground", "Laundry Facilities", "Community Room", "Close to Schools"],
     availableDate: "2023-07-01",
-    imageUrls: ["https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500"],
+    imageUrls: ["https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=500"],
     latitude: 41.88425,
     longitude: -87.63245,
     rating: 4.5,

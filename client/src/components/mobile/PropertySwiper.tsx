@@ -11,8 +11,22 @@ import { mockProperties } from "./mockData";
 const MIN_SWIPE_DISTANCE = 50;
 
 export default function PropertySwiper() {
-  // Use mock data directly for testing
-  const properties = mockProperties;
+  // Create property images array with reliable public image URLs
+  const propertyImages = [
+    'https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=3270&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2970&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2970&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?q=80&w=2970&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?q=80&w=2970&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2974&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1605146769289-440113cc3d00?q=80&w=2970&auto=format&fit=crop'
+  ];
+  
+  // Use the mock properties data with our reliable images
+  const properties = mockProperties.map((property, index) => ({
+    ...property,
+    imageUrls: [propertyImages[index % propertyImages.length]]
+  }));
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
@@ -200,7 +214,7 @@ export default function PropertySwiper() {
             <>
               <div 
                 className="w-full h-64 bg-cover bg-center" 
-                style={{ backgroundImage: `url(${currentProperty.imageUrls[0]})` }}
+                style={{ backgroundImage: `url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }}
               >
                 <div className="p-3 flex justify-between pt-12">
                   <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm shadow-sm">
