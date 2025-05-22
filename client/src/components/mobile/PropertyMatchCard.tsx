@@ -16,6 +16,7 @@ export interface MatchProperty {
   programType: string;
   rating: number;
   amenities: string[];
+  imageUrl: string;
 }
 
 // Create 5 realistic affordable housing property examples
@@ -32,7 +33,8 @@ export const matchProperties: MatchProperty[] = [
     description: "Affordable housing complex with green spaces and community amenities. Close to public transportation.",
     programType: "Income Restricted",
     rating: 4.5,
-    amenities: ["Playground", "Laundry Facilities", "Community Room", "Close to Schools"]
+    amenities: ["Playground", "Laundry Facilities", "Community Room", "Close to Schools"],
+    imageUrl: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     id: 2,
@@ -46,7 +48,8 @@ export const matchProperties: MatchProperty[] = [
     description: "Section 8 apartment complex with on-site management and security. Units include basic utilities.",
     programType: "Section 8",
     rating: 4.2,
-    amenities: ["Elevator", "Security System", "24-hour Maintenance", "Public Transit Access"]
+    amenities: ["Elevator", "Security System", "24-hour Maintenance", "Public Transit Access"],
+    imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     id: 3,
@@ -60,7 +63,8 @@ export const matchProperties: MatchProperty[] = [
     description: "Senior living community with accessible features and supportive services. Peaceful neighborhood.",
     programType: "Senior Housing",
     rating: 4.8,
-    amenities: ["Elevator", "Grab Bars", "Emergency Pull Cords", "Social Activities"]
+    amenities: ["Elevator", "Grab Bars", "Emergency Pull Cords", "Social Activities"],
+    imageUrl: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     id: 4,
@@ -74,7 +78,8 @@ export const matchProperties: MatchProperty[] = [
     description: "Newly renovated townhomes with spacious layouts, modern appliances, and riverside walking trail.",
     programType: "Tax Credit",
     rating: 4.7,
-    amenities: ["Parking", "Fitness Center", "Riverside Trail", "Energy-Efficient Windows"]
+    amenities: ["Parking", "Fitness Center", "Riverside Trail", "Energy-Efficient Windows"],
+    imageUrl: "https://images.unsplash.com/photo-1571055107559-3e67626fa8be?q=80&w=3431&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     id: 5,
@@ -88,7 +93,8 @@ export const matchProperties: MatchProperty[] = [
     description: "Supportive housing for veterans with on-site services including job placement assistance.",
     programType: "Veterans Housing",
     rating: 4.5,
-    amenities: ["On-site Counseling", "Job Placement Services", "Computer Lab", "Community Room"]
+    amenities: ["On-site Counseling", "Job Placement Services", "Computer Lab", "Community Room"],
+    imageUrl: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   }
 ];
 
@@ -127,10 +133,12 @@ const PropertyMatchCard: React.FC<PropertyMatchCardProps> = ({
 
         {/* Property Image */}
         <div 
-          className="w-full h-48 bg-gray-100 flex items-center justify-center text-2xl font-bold text-primary"
-          style={{ backgroundColor: '#f5f5f5', color: '#ff7a08' }}
+          className="w-full h-48 bg-cover bg-center"
+          style={{ backgroundImage: `url(${property.imageUrl})` }}
         >
-          {property.name}
+          <div className="w-full h-full flex items-center justify-center bg-black/20">
+            <h2 className="text-2xl font-bold text-white drop-shadow-lg">{property.name}</h2>
+          </div>
         </div>
 
         {/* Property Details */}
