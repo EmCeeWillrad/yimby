@@ -17,6 +17,9 @@ export default function Header() {
   const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
     const isActive = location === href;
     return (
+
+
+      
       <Link href={href}>
         <a className={`font-medium ${isActive ? 'text-primary' : 'hover:text-primary'}`}>
           {children}
